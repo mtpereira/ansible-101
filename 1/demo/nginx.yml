@@ -1,0 +1,60 @@
+---
+- name: nginx - deploy static page
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: apt - install nginx
+      apt:
+        pkg: nginx
+        update_cache: yes
+        cache_valid_time: 3600
+        state: latest
+
+    - name: site - create sites dir
+      file:
+        dest: /var/www
+        owner: root
+        group: root
+        mode: 0755
+        state: directory
+
+    - name: site - deploy static page
+      copy:
+        dest: /var/www/hello.html
+        src: hello.html
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: nginx - create site config
+      copy:
+        dest: /etc/nginx/sites-available/hello
+        src: hello.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart nginx
+
+    - name: nginx - remove default config
+      file:
+        dest: /etc/nginx/sites-available/default
+        state: absent
+      notify: restart nginx
+
+    - name: nginx - enable site
+      file:
+        src: /etc/nginx/sites-available/hello
+        dest: /etc/nginx/sites-enabled/hello
+        owner: root
+        group: root
+        mode: 0644
+        state: link
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: reloaded
+
