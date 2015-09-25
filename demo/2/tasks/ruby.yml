@@ -1,0 +1,34 @@
+---
+- name: ruby - Install ruby and ruby-dev
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    cache_valid_time: 3600
+  with_items:
+    - "{{ app_ruby_package }}"
+    - "{{ app_ruby_package }}-dev"
+
+- name: ruby - Install additional packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items: app_ruby_additional_packages
+
+- name: ruby - Update ruby alternative
+  alternatives:
+    name: "ruby"
+    link: "/usr/bin/ruby"
+    path: "/usr/bin/{{ app_ruby_package }}"
+
+- name: ruby - Update gem alternative
+  alternatives:
+    name: "gem"
+    link: "/usr/bin/gem"
+    path: "/usr/bin/{{ app_ruby_package | replace('ruby', 'gem') }}"
+
+- name: ruby - Install bundler
+  gem:
+    name: bundler
+    user_install: no
+    state: present
+
