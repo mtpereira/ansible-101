@@ -2,17 +2,25 @@
 # vi: set ft=ruby ts=2 sw=2 tw=0 et :
 
 boxes = {
-  "ubuntu-trusty"  => {
-                        :name => "ubuntu-trusty",
-                        :box  => "boxcutter/ubuntu1404",
-                        :ip   => '10.0.42.10',
-                        :cpu  => "100",
-                        :ram  => "128"
-                      },
+  "web1"  => {
+    :name => "ubuntu-trusty",
+    :box  => "boxcutter/ubuntu1404",
+    :ip   => '10.0.42.10',
+    :cpu  => "100",
+    :ram  => "128"
+  },
+  "web2"  => {
+    :name => "ubuntu-trusty",
+    :box  => "boxcutter/ubuntu1404",
+    :ip   => '10.0.42.11',
+    :cpu  => "100",
+    :ram  => "128"
+  },
 }
 
 Vagrant.configure("2") do |config|
   boxes.each do |name, box|
+    config.ssh.insert_key = false
     config.vm.define name do |machine|
       machine.vm.box = box[:box]
       machine.vm.box_url = box[:url]
@@ -27,12 +35,6 @@ Vagrant.configure("2") do |config|
 
       machine.vm.provision :shell do |shell|
         shell.inline = "sed -i -e 's/%sudo\tALL=NOPASSWD:ALL/%sudo\tALL=(ALL:ALL) ALL/' /etc/sudoers"
-      end
-
-      machine.vm.provision :ansible do |ansible|
-        ansible.playbook = "nginx.yml"
-        ansible.tags     = ENV['ANSIBLE_TAGS']    ||= "all"
-        ansible.verbose  = ENV['ANSIBLE_VERBOSE'] ||= "vv"
       end
     end
   end
