@@ -2,13 +2,20 @@
 # vi: set ft=ruby ts=2 sw=2 tw=0 et :
 
 boxes = {
-  "ubuntu-trusty"  => {
-                        :name => "ubuntu-trusty",
-                        :box  => "boxcutter/ubuntu1404",
-                        :ip   => '10.0.42.10',
-                        :cpu  => "100",
-                        :ram  => "128"
-                      },
+  "web1"  => {
+    :name => "ubuntu-trusty",
+    :box  => "boxcutter/ubuntu1404",
+    :ip   => '10.0.42.10',
+    :cpu  => "100",
+    :ram  => "128"
+  },
+  "web2"  => {
+    :name => "ubuntu-trusty",
+    :box  => "boxcutter/ubuntu1404",
+    :ip   => '10.0.42.11',
+    :cpu  => "100",
+    :ram  => "128"
+  },
 }
 
 Vagrant.configure("2") do |config|
