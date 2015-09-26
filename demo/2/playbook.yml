@@ -11,3 +11,5 @@
   handlers:
     - include: handlers/handlers.yml
 
+- include: test.yml
+
