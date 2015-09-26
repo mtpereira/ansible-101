@@ -1,0 +1,16 @@
+---
+- name: tests
+  hosts: all
+  become: no
+  tags: tests
+
+  tasks:
+  - name: exercise - access app
+    local_action: command curl -k {{ ansible_ssh_host }}:8080
+    register: test_access_app
+
+  - name: verify - access app was succeful
+    assert:
+      that:
+        - "{{ test_access_app | success }}"
+

@@ -16,6 +16,10 @@
   register: source
   notify: Restart app
 
+- name: debug source var
+  debug:
+    var: source
+
 - name: deploy - Bundle install
   command: bundle install --deployment
   args:
