@@ -14,11 +14,17 @@ localmente.
 ### Comandos úteis
 
 - `$ vagrant up` - Inicia uma máquina utilizando o Vagrantfile
-- `$ vagrant halt` - Para a máquina que está sendo utilizada
+- `$ vagrant halt` - Pausa a máquina que está sendo utilizada
 - `$ vagrant status` - Mostra o status da máquina que está sendo utilizada
 - `$ vagrant global-status` - Lista todas as máquinas e em qual estado a máquina
   se encontra
 - `$ vagrant destroy` - Remove a máquina que está sendo utilizada
+
+### Dica
+
+Em todas as aulas temos um demo para executar, é comum utilizarmos o mesmo IP
+entre as aulas. Sendo assim antes de executar o demo de uma aula garanta que
+tenha pausado a máquina ou removida a máquina de outra aula.
 
 ## Aulas
 
@@ -28,7 +34,7 @@ localmente.
 
 - `$ cd aula-01/demo/`
 - `$ vagrant up`
-- Acesse 10.0.42.10
+- Acesse http://10.0.42.10
 - Será exibida uma página de hello world
 
 #### Video
@@ -45,3 +51,13 @@ Os slides podem ser encontrados [aqui](aula-01/ansible-101_1.pdf).
 - http://docs.ansible.com/
 - https://galaxy.ansible.com/
 - https://github.com/lorin/ansible-quickref
+
+### Aula 2
+
+#### Executando
+
+- `$ cd aula-02/demo/`
+- `$ vagrant up`
+- `$ ansible-playbook -i inventory playbook.yml`
+- Acesse em http://10.0.42.10:8080 e http://10.0.42.11:8080
+- Será exibida uma app de todo list
