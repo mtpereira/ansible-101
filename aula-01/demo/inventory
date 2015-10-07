@@ -1,0 +1,4 @@
+webserver ansible_ssh_host=10.0.42.10 ansible_ssh_port=22 ansible_ssh_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/ubuntu-trusty/virtualbox/private_key
+
+[webserver]
+webserver
