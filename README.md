@@ -77,3 +77,15 @@ Os slides podem ser encontrados [aqui](aula-01/ansible-101_1.pdf).
 
 Os slides podem ser encontrados [aqui](aula-03/ansible_101_3.pdf).
 
+#### Links úteis referidos na aula
+
+  - Loops:
+    - http://docs.ansible.com/ansible/playbooks_loops.html
+    - https://github.com/lorin/ansible-quickref#return-value-of-a-loop
+  - Lookups: http://docs.ansible.com/ansible/playbooks_lookups.html
+  - Vault: http://docs.ansible.com/ansible/playbooks_vault.html
+  - Filters:
+    - http://docs.ansible.com/ansible/playbooks_filters.html
+    - https://github.com/mitsuhiko/jinja2/blob/master/jinja2/filters.py
+    - https://github.com/ansible/ansible/blob/devel/lib/ansible/plugins/filter/core.py
+
