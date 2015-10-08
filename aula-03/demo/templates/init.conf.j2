@@ -1,0 +1,15 @@
+description "{{ app_deploy_name }} Application"
+author "nobody"
+
+start on (local-filesystems and net-device-up)
+stop on runlevel [06]
+
+setuid {{ app_deploy_user_name }}
+
+respawn
+script
+    echo $$ > {{ app_deploy_location }}/{{ app_deploy_name }}.pid
+    cd {{ app_deploy_location }}
+    bundle exec ruby web.rb -p 8080
+end script
+

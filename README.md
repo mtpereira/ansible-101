@@ -61,3 +61,19 @@ Os slides podem ser encontrados [aqui](aula-01/ansible-101_1.pdf).
 - `$ ansible-playbook -i inventory playbook.yml`
 - Acesse em http://10.0.42.10:8080 e http://10.0.42.11:8080
 - Será exibida uma app de todo list
+
+### Aula 3
+
+#### Executando
+
+- `$ cd aula-03/demo/`
+- `$ vagrant up`
+- `$ ansible-playbook -i inventory playbook.yml`
+- Acesse em http://10.0.42.10:8080 e http://10.0.42.11:8080
+- Será exibida uma app de todo list
+- Experimente parar o serviço e ver o monit em ação
+
+#### Slides
+
+Os slides podem ser encontrados [aqui](aula-03/ansible_101_3.pdf).
+

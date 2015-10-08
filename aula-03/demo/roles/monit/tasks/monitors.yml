@@ -1,0 +1,66 @@
+---
+
+- name: monitors - custom checks directory
+  file:
+    path: "{{ monit_custom_checks_directory }}"
+    owner: root
+    group: root
+    state: directory
+  when: monit_custom_checks is defined and monit_custom_checks | length > 0
+
+- name: monitors - custom checks
+  copy:
+    dest: "{{ monit_custom_checks_directory }}/{{ item }}"
+    src: "files/{{ item }}"
+    mode: 0755
+    owner: root
+    group: root
+  with_items: monit_custom_checks
+
+- name: monitors - Write monitors
+  template:
+    src: monitor.j2
+    dest: "/etc/monit/conf.d/{{ item.name | replace (' ', '_') }}"
+    owner: root
+    group: root
+  with_items: monit_services
+  notify: reload monit
+
+- name: monitors - Create facts directory
+  file:
+    path: "/etc/ansible/facts.d"
+    mode: 0755
+    state: directory
+
+- name: monitors - Registers configured monitors
+  template:
+    src: "monit.fact.j2"
+    dest: "/etc/ansible/facts.d/monit.fact"
+    mode: 0644
+  register: monit_write_facts
+
+- name: monitors - Reload facts
+  setup:
+    filter: "ansible_local"
+  when: monit_write_facts.changed
+
+- name: monitors - List configured monitors
+  command: ls -1 /etc/monit/conf.d/
+  register: monit_services_present
+  changed_when: false
+
+- name: monitors - Remove unused monitors
+  file:
+    path: "/etc/monit/conf.d/{{ item }}"
+    state: absent
+  with_items: monit_services_present.stdout_lines
+  when: monit_service_delete_unlisted and item|basename not in ansible_local.monit.monit_configured_services
+  notify: reload monit
+
+- meta: flush_handlers
+
+- name: monitors - Start configured monitors
+  command: monit start {{ item }}
+  with_items: ansible_local.monit.monit_configured_services
+  when: monit_start_monitors and ansible_local.monit.monit_configured_services is defined and item not in monit_unstartable_monitors
+

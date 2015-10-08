@@ -1,0 +1,19 @@
+---
+- name: Deploy TODO application
+  hosts: webservers
+  become: yes
+  gather_facts: yes
+
+  handlers:
+    - include: handlers/handlers.yml
+
+  pre_tasks:
+    - include: tasks/ruby.yml
+      tags: ruby
+    - include: tasks/deploy.yml
+      tags: deploy
+
+  roles:
+    - role: monit
+      tags: monit
+
